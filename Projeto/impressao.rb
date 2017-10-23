@@ -15,7 +15,7 @@ if y.to_i == 1
 	teste.relatorio
 elsif y.to_i == 2
 	teste.ranking
-elsif
+elsif y.to_i == 3
 	teste.relatorio
 	teste.ranking
 else
