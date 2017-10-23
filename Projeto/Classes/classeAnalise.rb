@@ -8,8 +8,11 @@ class Analise
 	
 	#método inicial da classe - é carregado ao instanciar cada objeto do tipo Analise
 	def initialize
+		#abre arquivo
 		@file = File.open("arquivo/qgames.log","r")
+		#inicia um array
 		@jogos = []
+		#varre linha a linha até o fim do arquivo atribuindo o conteudo da linha à variavel
 		@file.each do |linha|
 			if inicio_jogo?(linha)
 				@jogos << Jogo.new
