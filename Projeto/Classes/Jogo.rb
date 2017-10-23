@@ -1,4 +1,5 @@
 class Jogo
+	#define variaveis que serão acessadas e modificadas (lidas e escritas), declarando implicitamente metodos set e get
 	attr_accessor :mortes, :jogadores, :causaMorte
 	attr_reader :id
 	@@idGame = 0

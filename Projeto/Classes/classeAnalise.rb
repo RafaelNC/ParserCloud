@@ -12,12 +12,16 @@ class Analise
 		@file = File.open("arquivo/qgames.log","r")
 		#inicia um array
 		@jogos = []
-		#varre linha a linha até o fim do arquivo atribuindo o conteudo da linha à variavel
+		#varre linha a linha até o fim do arquivo atribuindo o conteudo da linha à variavel(funciona tipo for)
 		@file.each do |linha|
+			#se encontrar linha com 'InitGame' instancia um novo jogo e o adiciona ao final do array(proximo item [indice +1])
 			if inicio_jogo?(linha)
 				@jogos << Jogo.new
+				#next pula pra proxima repeticao('for'), sem fazer o resto do código 
 				next
+			#metodo last pega o ultimo jogo instanciado (da lista(array))
 			elsif usuario_logado?(linha)
+				#cria novo jogador passando nome como parametro
 				usuario = Jogador.new(acha_usuario(linha))
 				@jogos.last.jogadores[usuario.nome] = usuario
 				next
@@ -37,24 +41,29 @@ class Analise
 				
 	end
 	
+	#invoca o metodo imprimir da classe Jogo para todos os jogos criados
 	def relatorio
 		@jogos.each do |jogo|
 			puts jogo.imprimir
 		end
 	end
 	
+	#cria uma hash para cada jogo, usa o .map para retornar objetos sem alterar o original.
+	#pega a key de cada objeto jogador(que recebe a variavel nome da classe Jogador) retornado e um valor(que recebe a variavel pontuação da classe Jogador)
 	def ranking
 		ranking = Hash.new(0)
+		#para cada jogo incrementa a pontuacao de cada jogador com a pontuacao do jogo atual
 		@jogos.each do |jogo|
-			jogo.jogadores.map { |key, valor| ranking[key] += valor.pontuacao }
+			jogo.jogadores.map { |chave, valor| ranking[chave] += valor.pontuacao }
 		end
 		
 		ranking = organizar(ranking)
-		puts "Ranking por mortes:\n" + ranking.map { |key, valor| "PLAYER: #{key} #{valor} KILLS\n" }.join("") + "\n"
+		puts "Ranking por mortes:\n" + ranking.map { |chave, valor| "PLAYER: #{chave} #{valor} KILLS\n" }.join("") + "\n"
 	end
 	
+	#sort_by organiza do menor pro maior(de acordo com o valor obtido), e o reverse inverte essa seleção
 	def organizar(var)
-		var.sort_by { |key, valor| valor}.reverse
+		var.sort_by { |chave, valor| valor}.reverse
 	end
 	
 	private
